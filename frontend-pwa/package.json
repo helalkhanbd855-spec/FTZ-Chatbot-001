@@ -1,0 +1,14 @@
+{
+  "name": "frontend-pwa",
+  "version": "1.0.0",
+  "description": "Static PWA frontend for FTZ Chatbot",
+  "scripts": {
+    "start": "npx serve .",
+    "build": "echo 'Static build skipped - files are already present'",
+    "copy": "npm run build && xcopy /E /I /Y . \"../capacitor/www\"",
+    "dev": "npm start"
+  },
+  "devDependencies": {
+    "serve": "^14.2.0"
+  }
+}
