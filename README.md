@@ -16,7 +16,7 @@
 ### 🧑‍💻 Run Locally
 
 1. **Backend:** See `backend-flask/README.md`
-2. **Frontend:** Open `frontend-pwa/index.html` (or serve via static server)  
+2. **Frontend:** Open `frontend-pwa/home.html` (or serve via static server)  
    👉 Set backend URL with: `?api=http://127.0.0.1:5000`
 
 ---
