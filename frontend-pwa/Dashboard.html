@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FTZ Dashboard</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f9fafb;
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      opacity: 1;
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    body.fade-out {
+      opacity: 0;
+      transform: translateX(-50px);
+    }
+
+    /* Header */
+    header {
+      background: linear-gradient(to right, #3b82f6, #2563eb);
+      color: white;
+      padding: 15px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-weight: bold;
+    }
+    header .profile {
+      width: 35px;
+      height: 35px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.3);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    /* Grid menu */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 15px;
+      padding: 15px;
+      flex: 1;
+      overflow-y: auto;
+    }
+    .grid button {
+      background: white;
+      padding: 20px;
+      border-radius: 15px;
+      text-align: center;
+      border: none;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      transition: transform 0.2s, background 0.2s;
+      cursor: pointer;
+    }
+    .grid button:hover {
+      background: #eff6ff;
+      transform: scale(1.05);
+    }
+
+    /* Bottom Nav */
+    .bottom-nav {
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      border-top: 1px solid #e5e7eb;
+      background: #fff;
+      padding: 10px 0 5px 0;
+      box-shadow: 0 -2px 5px rgba(0,0,0,0.1);
+      position: sticky;
+      bottom: 0;
+    }
+    .bottom-nav a {
+      text-decoration: none;
+      color: #6b7280;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      font-size: 12px;
+      transition: color 0.3s ease, transform 0.3s ease;
+      padding: 6px 10px;
+      border-radius: 8px;
+    }
+    .bottom-nav a i {
+      font-size: 22px;
+      margin-bottom: 3px;
+      z-index: 2;
+      transition: transform 0.3s ease;
+    }
+    .bottom-nav a.active {
+      color: #2563eb;
+      background: #dbeafe;
+      border-radius: 10px;
+      padding: 8px 15px;
+      transform: translateY(-5px);
+      animation: fadeSlide 0.4s ease forwards;
+    }
+
+    @keyframes fadeSlide {
+      0% { opacity: 0; transform: translateY(0) scale(0.9); }
+      50% { opacity: 0.7; transform: translateY(-8px) scale(1.05); }
+      100% { opacity: 1; transform: translateY(-5px) scale(1); }
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header>
+    <h1>FTZ Dashboard</h1>
+    <div class="profile"><i class="fa fa-user"></i></div>
+  </header>
+
+  <!-- Grid Menu -->
+  <div class="grid">
+    <button onclick="goToPage('FTZ chat 04.html')"><img src="https://img.icons8.com/color/48/chat.png"/>Chat</button>
+    <button onclick="goToPage('FTZ chat 04.html')"><img src="https://img.icons8.com/color/48/chat-room.png"/>FTZ Chat 04</button>
+    <button onclick="goToPage('FTZ chat 04.html')"><img src="https://img.icons8.com/fluency/48/group-chat.png"/>FTZ Group Chat</button>
+    <button onclick="goToPage('FTZ chat 04.html')"><img src="https://img.icons8.com/color/48/time.png"/>Timecard</button>
+    <button onclick="goToPage('FTZ chat 04.html')"><img src="https://img.icons8.com/color/48/project.png"/>Project</button>
+    <button onclick="goToPage('FTZ chat 04.html')"><img src="https://img.icons8.com/color/48/shop.png"/>Virtual Store</button>
+    <button onclick="goToPage('FTZ chat 04.html')"><img src="https://img.icons8.com/color/48/purchase-order.png"/>Material Order</button>
+    <button onclick="goToPage('FTZ chat 04.html')"><img src="https://img.icons8.com/color/48/trolley.png"/>Material Collect List</button>
+    <button onclick="goToPage('FTZ chat 04.html')"><img src="https://img.icons8.com/color/48/tools.png"/>Tools</button>
+    <button onclick="goToPage('FTZ chat 04.html')"><img src="https://img.icons8.com/color/48/error.png"/>Report Issue</button>
+    <button onclick="goToPage('FTZ chat 04.html')"><img src="https://img.icons8.com/color/48/safety-helmet.png"/>Safety</button>
+    <button onclick="goToPage('FTZ chat 04.html')"><img src="https://img.icons8.com/color/48/suggestion.png"/>Advice & Complain</button>
+    <button onclick="goToPage('FTZ chat 04.html')"><img src="https://img.icons8.com/color/48/home.png"/>Home Leave</button>
+    <button onclick="goToPage('FTZ chat 04.html')"><img src="https://img.icons8.com/color/48/task.png"/>Task</button>
+    <button onclick="goToPage('FTZ chat 04.html')"><img src="https://img.icons8.com/color/48/regulation.png"/>Company Role</button>
+    <button onclick="goToPage('FTZ chat 04.html')"><img src="https://img.icons8.com/color/48/tv.png"/>Project Demo</button>
+  </div>
+
+  <!-- Bottom Navigation -->
+  <div class="bottom-nav">
+    <a href="home.html"><i class="fa fa-home"></i><span>Home</span></a>
+    <a href="dashboard.html"><i class="fa fa-th-large"></i><span>Dashboard</span></a>
+    <a href="profile.html"><i class="fa fa-user"></i><span>Profile</span></a>
+    <a href="robot.html"><i class="fa fa-robot"></i><span>Robot</span></a>
+  </div>
+
+  <script>
+    // Detect active tab
+    const currentPage = window.location.pathname.split("/").pop();
+    const links = document.querySelectorAll(".bottom-nav a");
+    links.forEach(link => {
+      if (link.getAttribute("href") === currentPage) {
+        link.classList.add("active");
+      }
+    });
+
+    // Smooth page transition
+    function goToPage(url) {
+      document.body.classList.add("fade-out");
+      setTimeout(() => {
+        window.location.href = url;
+      }, 600); // 0.6s animation
+    }
+  </script>
+</body>
+</html>

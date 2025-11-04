@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FTZ Profile</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f9fafb;
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+    }
+
+    /* Header */
+    header {
+      background: linear-gradient(to right, #3b82f6, #2563eb);
+      color: white;
+      padding: 15px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-weight: bold;
+    }
+    header .profile {
+      width: 35px;
+      height: 35px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.3);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    /* Search Bar */
+    .search-bar {
+      display: flex;
+      gap: 10px;
+      padding: 10px 15px;
+      background: #fff;
+      border-bottom: 1px solid #e5e7eb;
+    }
+    .search-bar input {
+      flex: 1;
+      padding: 8px 12px;
+      border-radius: 8px;
+      border: 1px solid #d1d5db;
+    }
+    .search-bar button {
+      background: #2563eb;
+      color: #fff;
+      border: none;
+      padding: 8px 12px;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    /* Profile Grid */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 15px;
+      padding: 15px;
+      flex: 1;
+      overflow-y: auto;
+    }
+    .card {
+      background: white;
+      border-radius: 15px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      padding: 15px;
+      text-align: center;
+    }
+    .card img {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin-bottom: 10px;
+    }
+    .card h3 {
+      font-size: 16px;
+      margin: 5px 0;
+    }
+    .card p {
+      font-size: 14px;
+      color: #6b7280;
+    }
+
+    /* Bottom Nav */
+    .bottom-nav {
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      border-top: 1px solid #e5e7eb;
+      background: #fff;
+      padding: 10px 0 5px 0;
+      box-shadow: 0 -2px 5px rgba(0,0,0,0.1);
+      position: sticky;
+      bottom: 0;
+    }
+    .bottom-nav a {
+      text-decoration: none;
+      color: #6b7280;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      font-size: 12px;
+      transition: color 0.3s ease, transform 0.3s ease;
+      padding: 6px 10px;
+      border-radius: 8px;
+    }
+    .bottom-nav a i {
+      font-size: 22px;
+      margin-bottom: 3px;
+      transition: transform 0.3s ease;
+    }
+    .bottom-nav a.active {
+      color: #2563eb;
+      background: #dbeafe;
+      border-radius: 10px;
+      padding: 8px 15px;
+      transform: translateY(-5px);
+      animation: fadeSlide 0.4s ease forwards;
+    }
+
+    @keyframes fadeSlide {
+      0% { opacity: 0; transform: translateY(0) scale(0.9); }
+      50% { opacity: 0.7; transform: translateY(-8px) scale(1.05); }
+      100% { opacity: 1; transform: translateY(-5px) scale(1); }
+    }
+	
+:root{--bg:#f9fafb;--card:#fff;--muted:#6b7280;--accent1:#2563eb}
+body{margin:0;font-family:Inter,Arial,Helvetica,sans-serif;background:var(--bg);color:#111}
+header{background:linear-gradient(90deg,#3b82f6,#2563eb);color:#fff;padding:20px 24px;display:flex;align-items:center;justify-content:space-between}
+.header-title{font-size:28px;font-weight:700}
+.container{padding:20px;max-width:1200px;margin:0 auto}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:18px}
+.card{background:var(--card);border-radius:14px;padding:18px;text-align:center;box-shadow:0 6px 18px rgba(17,24,39,0.06);transition:transform .15s,box-shadow .15s}
+.card:hover{transform:translateY(-6px);box-shadow:0 12px 30px rgba(17,24,39,0.08);cursor:pointer}
+.avatar{width:84px;height:84px;border-radius:50%;object-fit:cover;margin:0 auto 12px;display:block;border:4px solid #fff;box-shadow:0 2px 8px rgba(0,0,0,0.06)}
+.name{font-size:18px;font-weight:700;color:var(--accent1);margin:6px 0;text-decoration:none;display:block}
+.role{font-size:13px;color:var(--muted);margin-bottom:8px}
+.company{font-size:12px;color:var(--muted);margin-top:8px}
+.badge{display:inline-block;padding:6px 10px;border-radius:999px;font-size:12px;color:#fff;margin-top:8px}
+.footer{height:80px}
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header>
+    <h1>FTZ Profile</h1>
+    <div class="profile"><i class="fa fa-user"></i></div>
+  </header>
+
+  <!-- Search + Export -->
+  <div class="search-bar">
+    <input type="text" id="searchInput" placeholder="Search profiles...">
+    <button onclick="exportCSV()">CSV</button>
+    <button onclick="exportJSON()">JSON</button>
+  </div>
+
+  <!-- Profiles -->
+ <div class="grid">
+
+    <a class="card" href="profile-1.html">
+      <img class="avatar" src="https://via.placeholder.com/150?text=User+1" alt="Helal Khan"/>
+      <div class="name">Helal Khan</div>
+      <div class="role">Project Manager</div>
+      <div class="badge" style="background:#16a34a">Fit to Work</div>
+      <div class="company">FTZ ELECTRICAL &amp; SECURITY SYSTEM PTE LTD</div>
+    </a>
+    
+    <a class="card" href="profile-2.html">
+      <img class="avatar" src="https://via.placeholder.com/150?text=User+2" alt="Lavli Aktar"/>
+      <div class="name">Laman khan</div>
+      <div class="role">HR Executive</div>
+      <div class="badge" style="background:#f97316">Home Leave</div>
+      <div class="company">FTZ ELECTRICAL &amp; SECURITY SYSTEM PTE LTD</div>
+    </a>
+    
+    <a class="card" href="profile-3.html">
+      <img class="avatar" src="https://via.placeholder.com/150?text=User+3" alt="Labib Khan"/>
+      <div class="name">Labib Khan</div>
+      <div class="role">Junior Engineer</div>
+      <div class="badge" style="background:#16a34a">Fit to Work</div>
+      <div class="company">FTZ ELECTRICAL &amp; SECURITY SYSTEM PTE LTD</div>
+    </a>
+    
+    <a class="card" href="profile-4.html">
+      <img class="avatar" src="https://via.placeholder.com/150?text=User+4" alt="Abdur Rahman"/>
+      <div class="name">Abdur Rahman</div>
+      <div class="role">Trainee Technician</div>
+      <div class="badge" style="background:#ef4444">Medical Leave</div>
+      <div class="company">FTZ ELECTRICAL &amp; SECURITY SYSTEM PTE LTD</div>
+    </a>
+    
+    <a class="card" href="profile-5.html">
+      <img class="avatar" src="https://via.placeholder.com/150?text=User+5" alt="Sumaiya"/>
+      <div class="name">Sumaiya</div>
+      <div class="role">Finance Officer</div>
+      <div class="badge" style="background:#16a34a">Fit to Work</div>
+      <div class="company">FTZ ELECTRICAL &amp; SECURITY SYSTEM PTE LTD</div>
+    </a>
+    
+    <a class="card" href="profile-6.html">
+      <img class="avatar" src="https://via.placeholder.com/150?text=User+6" alt="Rashid Ahmed"/>
+      <div class="name">Rashid Ahmed</div>
+      <div class="role">Senior Engineer</div>
+      <div class="badge" style="background:#16a34a">Fit to Work</div>
+      <div class="company">FTZ ELECTRICAL &amp; SECURITY SYSTEM PTE LTD</div>
+    </a>
+    
+    <a class="card" href="profile-7.html">
+      <img class="avatar" src="https://via.placeholder.com/150?text=User+7" alt="Tan Wei"/>
+      <div class="name">Tan Wei</div>
+      <div class="role">Foreman</div>
+      <div class="badge" style="background:#16a34a">Fit to Work</div>
+      <div class="company">FTZ ELECTRICAL &amp; SECURITY SYSTEM PTE LTD</div>
+    </a>
+    
+    <a class="card" href="profile-8.html">
+      <img class="avatar" src="https://via.placeholder.com/150?text=User+8" alt="Raju Ahmed"/>
+      <div class="name">Raju Ahmed</div>
+      <div class="role">Worker</div>
+      <div class="badge" style="background:#ef4444">Medical Leave</div>
+      <div class="company">FTZ ELECTRICAL &amp; SECURITY SYSTEM PTE LTD</div>
+    </a>
+    
+    <a class="card" href="profile-9.html">
+      <img class="avatar" src="https://via.placeholder.com/150?text=User+9" alt="Mohd Faisal"/>
+      <div class="name">Mohd Faisal</div>
+      <div class="role">Supervisor</div>
+      <div class="badge" style="background:#f97316">Home Leave</div>
+      <div class="company">FTZ ELECTRICAL &amp; SECURITY SYSTEM PTE LTD</div>
+    </a>
+    
+    <a class="card" href="profile-10.html">
+      <img class="avatar" src="https://via.placeholder.com/150?text=User+10" alt="Jason Lim"/>
+      <div class="name">Jason Lim</div>
+      <div class="role">Engineer</div>
+      <div class="badge" style="background:#16a34a">Fit to Work</div>
+      <div class="company">FTZ ELECTRICAL &amp; SECURITY SYSTEM PTE LTD</div>
+    </a>
+    
+    <a class="card" href="profile-11.html">
+      <img class="avatar" src="https://via.placeholder.com/150?text=User+11" alt="Samiul Islam"/>
+      <div class="name">Samiul Islam</div>
+      <div class="role">Technician</div>
+      <div class="badge" style="background:#16a34a">Fit to Work</div>
+      <div class="company">FTZ ELECTRICAL &amp; SECURITY SYSTEM PTE LTD</div>
+    </a>
+    
+    <a class="card" href="profile-12.html">
+      <img class="avatar" src="https://via.placeholder.com/150?text=User+12" alt="Arif Hossain"/>
+      <div class="name">Arif Hossain</div>
+      <div class="role">Worker</div>
+      <div class="badge" style="background:#f59e0b">Pending MOM</div>
+      <div class="company">FTZ ELECTRICAL &amp; SECURITY SYSTEM PTE LTD</div>
+    </a>
+    
+    <a class="card" href="profile-13.html">
+      <img class="avatar" src="https://via.placeholder.com/150?text=User+13" alt="Chen Wei"/>
+      <div class="name">Chen Wei</div>
+      <div class="role">Engineer</div>
+      <div class="badge" style="background:#16a34a">Fit to Work</div>
+      <div class="company">FTZ ELECTRICAL &amp; SECURITY SYSTEM PTE LTD</div>
+    </a>
+    
+    <a class="card" href="profile-14.html">
+      <img class="avatar" src="https://via.placeholder.com/150?text=User+14" alt="Helal Khan Jr"/>
+      <div class="name">Helal Khan Jr</div>
+      <div class="role">Electrician</div>
+      <div class="badge" style="background:#16a34a">Fit to Work</div>
+      <div class="company">FTZ ELECTRICAL &amp; SECURITY SYSTEM PTE LTD</div>
+    </a>
+    
+    <a class="card" href="profile-15.html">
+      <img class="avatar" src="https://via.placeholder.com/150?text=User+15" alt="Imran Ali"/>
+      <div class="name">Imran Ali</div>
+      <div class="role">Supervisor</div>
+      <div class="badge" style="background:#f97316">Home Leave</div>
+      <div class="company">FTZ ELECTRICAL &amp; SECURITY SYSTEM PTE LTD</div>
+    </a>
+    
+    <a class="card" href="profile-16.html">
+      <img class="avatar" src="https://via.placeholder.com/150?text=User+16" alt="Farid Khan"/>
+      <div class="name">Farid Khan</div>
+      <div class="role">Technician</div>
+      <div class="badge" style="background:#16a34a">Fit to Work</div>
+      <div class="company">FTZ ELECTRICAL &amp; SECURITY SYSTEM PTE LTD</div>
+    </a>
+    
+    <a class="card" href="profile-17.html">
+      <img class="avatar" src="https://via.placeholder.com/150?text=User+17" alt="Samir Das"/>
+      <div class="name">Samir Das</div>
+      <div class="role">Electrician</div>
+      <div class="badge" style="background:#ef4444">Medical Leave</div>
+      <div class="company">FTZ ELECTRICAL &amp; SECURITY SYSTEM PTE LTD</div>
+    </a>
+    
+    <a class="card" href="profile-18.html">
+      <img class="avatar" src="https://via.placeholder.com/150?text=User+18" alt="Mohd Azman"/>
+      <div class="name">Mohd Azman</div>
+      <div class="role">Electrician</div>
+      <div class="badge" style="background:#16a34a">Fit to Work</div>
+      <div class="company">FTZ ELECTRICAL &amp; SECURITY SYSTEM PTE LTD</div>
+    </a>
+    
+    <a class="card" href="profile-19.html">
+      <img class="avatar" src="https://via.placeholder.com/150?text=User+19" alt="Hossain Kabir"/>
+      <div class="name">Hossain Kabir</div>
+      <div class="role">Worker</div>
+      <div class="badge" style="background:#16a34a">Fit to Work</div>
+      <div class="company">FTZ ELECTRICAL &amp; SECURITY SYSTEM PTE LTD</div>
+    </a>
+    
+    <a class="card" href="profile-20.html">
+      <img class="avatar" src="https://via.placeholder.com/150?text=User+20" alt="Tan Ming"/>
+      <div class="name">Tan Ming</div>
+      <div class="role">Supervisor</div>
+      <div class="badge" style="background:#16a34a">Fit to Work</div>
+      <div class="company">FTZ ELECTRICAL &amp; SECURITY SYSTEM PTE LTD</div>
+    </a>
+    
+    <a class="card" href="profile-21.html">
+      <img class="avatar" src="https://via.placeholder.com/150?text=User+21" alt="Salman Khan"/>
+      <div class="name">Salman Khan</div>
+      <div class="role">Engineer</div>
+      <div class="badge" style="background:#8b5cf6">Training</div>
+      <div class="company">FTZ ELECTRICAL &amp; SECURITY SYSTEM PTE LTD</div>
+    </a>
+    
+    <a class="card" href="profile-22.html">
+      <img class="avatar" src="https://via.placeholder.com/150?text=User+22" alt="Mustafiz Rahman"/>
+      <div class="name">Mustafiz Rahman</div>
+      <div class="role">Worker</div>
+      <div class="badge" style="background:#dc2626">Pass Expired</div>
+      <div class="company">FTZ ELECTRICAL &amp; SECURITY SYSTEM PTE LTD</div>
+    </a>
+    
+    <a class="card" href="profile-23.html">
+      <img class="avatar" src="https://via.placeholder.com/150?text=User+23" alt="Tanvir Alam"/>
+      <div class="name">Tanvir Alam</div>
+      <div class="role">Technician</div>
+      <div class="badge" style="background:#f97316">Home Leave</div>
+      <div class="company">FTZ ELECTRICAL &amp; SECURITY SYSTEM PTE LTD</div>
+    </a>
+    
+    <a class="card" href="profile-24.html">
+      <img class="avatar" src="https://via.placeholder.com/150?text=User+24" alt="Khalid Mahmud"/>
+      <div class="name">Khalid Mahmud</div>
+      <div class="role">Electrician</div>
+      <div class="badge" style="background:#16a34a">Fit to Work</div>
+      <div class="company">FTZ ELECTRICAL &amp; SECURITY SYSTEM PTE LTD</div>
+    </a>
+    
+    <a class="card" href="profile-25.html">
+      <img class="avatar" src="https://via.placeholder.com/150?text=User+25" alt="Peter Tan"/>
+      <div class="name">Peter Tan</div>
+      <div class="role">Supervisor</div>
+      <div class="badge" style="background:#f59e0b">Pending MOM</div>
+      <div class="company">FTZ ELECTRICAL &amp; SECURITY SYSTEM PTE LTD</div>
+    </a>
+    
+    <a class="card" href="profile-26.html">
+      <img class="avatar" src="https://via.placeholder.com/150?text=User+26" alt="Sharif Uddin"/>
+      <div class="name">Sharif Uddin</div>
+      <div class="role">Worker</div>
+      <div class="badge" style="background:#8b5cf6">Training</div>
+      <div class="company">FTZ ELECTRICAL &amp; SECURITY SYSTEM PTE LTD</div>
+    </a>
+    
+    <a class="card" href="profile-27.html">
+      <img class="avatar" src="https://via.placeholder.com/150?text=User+27" alt="Hasibul Karim"/>
+      <div class="name">Hasibul Karim</div>
+      <div class="role">Technician</div>
+      <div class="badge" style="background:#16a34a">Fit to Work</div>
+      <div class="company">FTZ ELECTRICAL &amp; SECURITY SYSTEM PTE LTD</div>
+    </a>
+    
+    <a class="card" href="profile-28.html">
+      <img class="avatar" src="https://via.placeholder.com/150?text=User+28" alt="Ayesha Khan"/>
+      <div class="name">Ayesha Khan</div>
+      <div class="role">Admin</div>
+      <div class="badge" style="background:#f97316">Home Leave</div>
+      <div class="company">FTZ ELECTRICAL &amp; SECURITY SYSTEM PTE LTD</div>
+    </a>
+    
+    <a class="card" href="profile-29.html">
+      <img class="avatar" src="https://via.placeholder.com/150?text=User+29" alt="Victor Lim"/>
+      <div class="name">Victor Lim</div>
+      <div class="role">Driver</div>
+      <div class="badge" style="background:#16a34a">Fit to Work</div>
+      <div class="company">FTZ ELECTRICAL &amp; SECURITY SYSTEM PTE LTD</div>
+    </a>
+    
+    <a class="card" href="profile-30.html">
+      <img class="avatar" src="https://via.placeholder.com/150?text=User+30" alt="Michael Goh"/>
+      <div class="name">Michael Goh</div>
+      <div class="role">Supervisor</div>
+      <div class="badge" style="background:#16a34a">Fit to Work</div>
+      <div class="company">FTZ ELECTRICAL &amp; SECURITY SYSTEM PTE LTD</div>
+    </a>
+    
+</div>
+
+  <!-- Bottom Navigation -->
+  <div class="bottom-nav">
+    <a href="home.html"><i class="fa fa-home"></i><span>Home</span></a>
+    <a href="dashboard.html"><i class="fa fa-th-large"></i><span>Dashboard</span></a>
+    <a href="profile.html"><i class="fa fa-user"></i><span>Profile</span></a>
+    <a href="robot.html"><i class="fa fa-robot"></i><span>Robot</span></a>
+  </div>
+
+  <script>
+    const profiles = Array.from({ length: 30 }, (_, i) => ({
+      name: `Person ${i+1}`,
+      role: `Role ${i+1}`,
+      img: `https://i.pravatar.cc/150?img=${i+1}`
+    }));
+
+    const profileGrid = document.getElementById("profileGrid");
+
+    function renderProfiles(list) {
+      profileGrid.innerHTML = "";
+      list.forEach(p => {
+        const card = document.createElement("div");
+        card.className = "card";
+        card.innerHTML = `
+          <img src="${p.img}" alt="Profile">
+          <h3>${p.name}</h3>
+          <p>${p.role}</p>
+        `;
+        profileGrid.appendChild(card);
+      });
+    }
+
+    // Search filter
+    document.getElementById("searchInput").addEventListener("input", (e) => {
+      const val = e.target.value.toLowerCase();
+      const filtered = profiles.filter(p =>
+        p.name.toLowerCase().includes(val) || p.role.toLowerCase().includes(val)
+      );
+      renderProfiles(filtered);
+    });
+
+    // Export CSV
+    function exportCSV() {
+      let csv = "Name,Role\n";
+      profiles.forEach(p => csv += `${p.name},${p.role}\n`);
+      downloadFile("profiles.csv", csv);
+    }
+
+    // Export JSON
+    function exportJSON() {
+      downloadFile("profiles.json", JSON.stringify(profiles, null, 2));
+    }
+
+    function downloadFile(filename, content) {
+      const blob = new Blob([content], { type: "text/plain" });
+      const link = document.createElement("a");
+      link.href = URL.createObjectURL(blob);
+      link.download = filename;
+      link.click();
+    }
+
+    renderProfiles(profiles);
+
+    // Active nav tab
+    const currentPage = window.location.pathname.split("/").pop();
+    const links = document.querySelectorAll(".bottom-nav a");
+    links.forEach(link => {
+      if (link.getAttribute("href") === currentPage) {
+        link.classList.add("active");
+      }
+    });
+  </script>
+</body>
+</html>

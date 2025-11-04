@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FTZ Chatbot</title>
+  <link rel="manifest" href="./manifest.json" />
+  <link rel="icon" href="./assets/favicon.png" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+  <style>
+    :root {
+      --bg: #0b1220;
+      --surface: #0f172a;
+      --text: #e5e7eb;
+      --muted: #94a3b8;
+      --primary: #0A84FF;
+      --primaryText: #00112a;
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: linear-gradient(180deg, #0b1220, #0a0f1c);
+      color: var(--text);
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, 'Helvetica Neue', Arial;
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 16px 20px;
+      border-bottom: 1px solid #15213a;
+      background: linear-gradient(90deg, var(--surface), #0b1220);
+      flex-shrink: 0;
+    }
+    header img {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      background: white;
+      padding: 2px;
+    }
+    header h1 { font-size: 18px; margin: 0; }
+
+    main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: center;
+      padding: 15px;
+      overflow-y: auto;
+      scroll-behavior: smooth;
+    }
+
+    .chat-box {
+      background: var(--surface);
+      border: 1px solid #1f2a44;
+      border-radius: 20px;
+      padding: 24px;
+      max-width: 600px;
+      width: 100%;
+      box-shadow: 0 10px 40px rgba(0,0,0,.35);
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      text-align: center;
+      margin-top: 10px;
+    }
+
+    #answer {
+      min-height: 60px;
+      font-size: 18px;
+      line-height: 1.5;
+    }
+
+    #loading {
+      display: none;
+      text-align: center;
+      color: #facc15;
+      font-style: italic;
+      animation: blink 1.2s infinite;
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 0.3; }
+      50% { opacity: 1; }
+    }
+
+    /* Chat Controls (Quick + Message Box above Nav) */
+    .chat-controls {
+      position: fixed;
+      bottom: 65px; /* sits above nav */
+      left: 0;
+      width: 100%;
+      background: linear-gradient(180deg, #0b1220, #0f172a);
+      padding: 10px 10px 15px;
+      box-shadow: 0 -3px 15px rgba(0,0,0,0.4);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      z-index: 100;
+    }
+
+    .ask {
+      width: 95%;
+      max-width: 600px;
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      border-radius: 14px;
+      background: #0a1429;
+      border: 1px solid #223352;
+      padding: 8px 10px;
+      box-shadow: 0 0 10px rgba(10,132,255,0.2);
+    }
+
+    .ask input[type="text"] {
+      flex: 1;
+      border: none;
+      outline: none;
+      background: transparent;
+      color: var(--text);
+      font-size: 15px;
+      padding: 10px;
+    }
+
+    .ask button {
+      background: var(--primary);
+      border: none;
+      border-radius: 10px;
+      padding: 10px 14px;
+      cursor: pointer;
+      color: white;
+      font-weight: bold;
+      transition: background 0.2s, transform 0.1s;
+    }
+
+    .ask button:hover { background: #0073e6; }
+    .ask button:active { transform: scale(0.96); }
+
+    .quick {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 8px;
+      width: 95%;
+      max-width: 600px;
+    }
+
+    .chip {
+      background: #0b162e;
+      border: 1px solid #223352;
+      color: var(--muted);
+      padding: 10px 14px;
+      border-radius: 999px;
+      font-size: 14px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .chip:hover {
+      background: #0A84FF22;
+      border-color: #0A84FF;
+      color: var(--text);
+    }
+
+    .muted {
+      color: var(--muted);
+      font-size: 12px;
+      text-align: center;
+      margin-top: 10px;
+      margin-bottom: 120px;
+    }
+
+    /* Bottom Nav */
+    .bottom-nav {
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      border-top: 1px solid #1e293b;
+      background: #0f172a;
+      padding: 8px 0;
+      box-shadow: 0 -2px 5px rgba(0,0,0,0.4);
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      z-index: 50;
+    }
+
+    .bottom-nav a {
+      text-decoration: none;
+      color: #94a3b8;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      font-size: 12px;
+      transition: color 0.3s ease, transform 0.3s ease;
+    }
+
+    .bottom-nav a i {
+      font-size: 20px;
+      margin-bottom: 3px;
+    }
+
+    .bottom-nav a.active {
+      color: var(--primary);
+      transform: translateY(-3px);
+    }
+
+    @media (max-width: 480px) {
+      .chat-controls { padding-bottom: 12px; }
+      .ask { width: 90%; }
+    }
+  </style>
+
+  <script>
+    window.API_BASE = window.API_BASE || localStorage.getItem('API_BASE') || 'https://ftz-chatbot-001.onrender.com';
+  </script>
+</head>
+
+<body>
+  <header>
+    <img src="./assets/icon-192.png" alt="FTZ">
+    <h1>FTZ Chatbot</h1>
+  </header>
+
+  <main>
+    <div class="chat-box">
+      <div id="answer">👋 Hello Mr. Helal! How can I help you today?</div>
+      <div id="loading">🤖 Bot is typing…</div>
+    </div>
+  </main>
+
+  <!-- Controls above bottom nav -->
+  <div class="chat-controls">
+    <div class="quick" id="quickBtns">
+      <div class="chip" onclick="setQuick('Chat with FTZ Assistant')">Chat</div>
+      <div class="chip" onclick="setQuick('Update timecard')">Timecard</div>
+      <div class="chip" onclick="setQuick('Project progress update')">Project</div>
+      <div class="chip hidden" onclick="setQuick('Material Order')">Material Order</div>
+      <div class="chip hidden" onclick="setQuick('Material Collect List')">Material Collect List</div>
+      <div class="chip hidden" onclick="setQuick('Report Issue')">Report Issue</div>
+      <div class="chip hidden" onclick="setQuick('Safety Update')">Safety</div>
+      <div class="chip hidden" onclick="setQuick('Advice & Complain')">Advice & Complain</div>
+      <div class="chip hidden" onclick="setQuick('Company Role')">Company Role</div>
+      <div class="chip hidden" onclick="setQuick('Virtual Store')">Virtual Store</div>
+      <div class="chip hidden" onclick="setQuick('Home Leave')">Home Leave</div>
+      <div class="chip hidden" onclick="setQuick('Task Management')">Task</div>
+      <div class="chip" id="moreBtn" onclick="toggleMore()">More ▼</div>
+    </div>
+
+    <div class="ask">
+      <input id="user-input" type="text" placeholder="Ask me anything…" />
+      <button id="sendBtn"><i class="fa fa-paper-plane"></i></button>
+    </div>
+  </div>
+
+  <div class="bottom-nav">
+    <a href="index.html"><i class="fa fa-home"></i><span>Home</span></a>
+    <a href="dashboard.html"><i class="fa fa-th-large"></i><span>Dashboard</span></a>
+    <a href="profile.html"><i class="fa fa-user"></i><span>Profile</span></a>
+    <a href="robot.html"><i class="fa fa-robot"></i><span>Robot</span></a>
+  </div>
+
+  <script>
+    function setQuick(text){
+      document.getElementById('user-input').value = text;
+      document.getElementById('user-input').focus();
+    }
+
+    function typeEffect(el, text, speed = 20){
+      el.textContent = '';
+      let i = 0;
+      (function t(){
+        if(i < text.length){
+          el.textContent += text.charAt(i++);
+          setTimeout(t, speed);
+        }
+      })();
+    }
+
+    async function sendMessage(){
+      const input = document.getElementById('user-input');
+      const btn = document.getElementById('sendBtn');
+      const answer = document.getElementById('answer');
+      const loading = document.getElementById('loading');
+      const msg = input.value.trim();
+      if(!msg) return;
+
+      btn.disabled = true;
+      loading.style.display = 'block';
+      answer.textContent = '';
+
+      try {
+        const res = await fetch(`${window.API_BASE}/chat`, {
+          method: 'POST',
+          headers: {'Content-Type':'application/json'},
+          body: JSON.stringify({message: msg})
+        });
+        if(!res.ok) throw new Error('HTTP ' + res.status);
+        const data = await res.json();
+        loading.style.display = 'none';
+        typeEffect(answer, data.reply || 'No response.');
+      } catch(e){
+        console.error(e);
+        loading.style.display = 'none';
+        answer.textContent = '⚠️ Error: Could not connect to chatbot.';
+      } finally {
+        btn.disabled = false;
+        input.value = '';
+        input.focus();
+      }
+    }
+
+    document.getElementById('sendBtn').addEventListener('click', sendMessage);
+    document.getElementById('user-input').addEventListener('keydown', e => {
+      if(e.key === 'Enter') sendMessage();
+    });
+
+    // "More" toggle
+    let expanded = false;
+    function toggleMore(){
+      const hiddenBtns = document.querySelectorAll('.chip.hidden');
+      expanded = !expanded;
+      hiddenBtns.forEach(btn => {
+        btn.style.display = expanded ? 'inline-block' : 'none';
+      });
+      document.getElementById('moreBtn').textContent = expanded ? 'Less ▲' : 'More ▼';
+    }
+    window.addEventListener('DOMContentLoaded',()=>{
+      document.querySelectorAll('.chip.hidden').forEach(btn=>btn.style.display='none');
+    });
+
+    // Highlight current nav
+    const currentPage = window.location.pathname.split("/").pop();
+    document.querySelectorAll(".bottom-nav a").forEach(link=>{
+      if(link.getAttribute("href") === currentPage){
+        link.classList.add("active");
+      }
+    });
+
+    // Register service worker
+    if('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('./sw.js').catch(()=>{});
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FTZ Dashboard</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    body { margin: 0; font-family: Arial, sans-serif; background: #f9fafb; display: flex; flex-direction: column; height: 100vh; }
+    header { background: linear-gradient(to right, #3b82f6, #2563eb); color: white; padding: 15px; display: flex; justify-content: space-between; align-items: center; font-weight: bold; }
+    header .profile { width: 35px; height: 35px; border-radius: 50%; background: rgba(255, 255, 255, 0.3); display: flex; justify-content: center; align-items: center; }
+    .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; padding: 15px; flex: 1; overflow-y: auto; }
+    .grid a { text-decoration: none; }
+    .grid button { width: 100%; background: white; padding: 20px; border-radius: 15px; text-align: center; border: none; font-size: 16px; font-weight: bold; box-shadow: 0 2px 5px rgba(0,0,0,0.1); transition: transform 0.2s, background 0.2s; cursor: pointer; }
+    .grid button:hover { background: #eff6ff; transform: scale(1.05); }
+    .bottom-nav { display: flex; justify-content: space-around; align-items: center; border-top: 1px solid #e5e7eb; background: #fff; padding: 10px 0 5px 0; box-shadow: 0 -2px 5px rgba(0,0,0,0.1); position: sticky; bottom: 0; }
+    .bottom-nav a { text-decoration: none; color: #6b7280; display: flex; flex-direction: column; align-items: center; font-size: 12px; position: relative; padding: 6px 10px; border-radius: 8px; transition: color 0.3s ease, transform 0.3s ease; }
+    .bottom-nav a i { font-size: 22px; margin-bottom: 3px; }
+    .bottom-nav a.active { color: #2563eb; background: #dbeafe; border-radius: 10px; padding: 8px 15px; transform: translateY(-5px); }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>FTZ Robot Dashboard</h1>
+    <div class="profile"><i class="fa fa-user"></i></div>
+  </header>
+
+  <div class="grid">
+    <a href="office.html"><button>Office Robot</button></a>
+    <a href="store.html"><button>Store Robot</button></a>
+    <a href="helper1.html"><button>Helper Robot 1</button></a>
+    <a href="helper2.html"><button>Helper Robot 2</button></a>
+    <a href="helper3.html"><button>Helper Robot 3</button></a>
+  </div>
+
+  <div class="bottom-nav">
+    <a href="home.html"><i class="fa fa-home"></i><span>Home</span></a>
+    <a href="dashboard.html"><i class="fa fa-th-large"></i><span>Dashboard</span></a>
+    <a href="profile.html"><i class="fa fa-user"></i><span>Profile</span></a>
+    <a href="robot.html" class="active"><i class="fa fa-robot"></i><span>Robot</span></a>
+  </div>
+</body>
+</html>

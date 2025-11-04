@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Store Robot</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    body { margin:0; font-family:Arial, sans-serif; background:#f9fafb; height:100vh; display:flex; flex-direction:column; }
+    header { background:linear-gradient(to right,#3b82f6,#2563eb); color:white; padding:15px; display:flex; justify-content:space-between; align-items:center; font-weight:bold; }
+    .chat-box { flex:1; padding:15px; overflow-y:auto; }
+    .command-btn { display:block; width:100%; padding:10px; margin-bottom:10px; border:none; border-radius:8px; background:#fff; box-shadow:0 2px 5px rgba(0,0,0,0.1); cursor:pointer; text-align:left; }
+    .command-btn:hover { background:#eff6ff; }
+    textarea { width:100%; padding:10px; border-radius:10px; border:1px solid #ddd; margin-top:10px; }
+    .send { width:100%; padding:12px; margin-top:8px; background:#2563eb; color:white; border:none; border-radius:8px; font-weight:bold; cursor:pointer; }
+    .send:hover { background:#1d4ed8; }
+    .back { width:100%; padding:12px; background:#6b7280; color:white; border:none; border-radius:8px; font-weight:bold; cursor:pointer; margin-top:10px; }
+  </style>
+</head>
+<body>
+  <header><h1>Store Robot</h1></header>
+  <div class="chat-box">
+    <button class="command-btn">20mm PVC pipe er 5ti end box, 2 way box, tee box</button>
+    <button class="command-btn">25mm PVC pipe er 5ti end box, 2 way box, tee box</button>
+    <button class="command-btn">5ti Single base lagbe</button>
+    <textarea rows="3" placeholder="Type your custom command..."></textarea>
+    <button class="send">Send Command</button>
+    <button class="back" onclick="window.location.href='robot.html'">← Back to Robot</button>
+  </div>
+</body>
+</html>
