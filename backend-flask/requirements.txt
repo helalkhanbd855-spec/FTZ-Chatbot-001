@@ -1,5 +1,6 @@
 Flask
 Flask-Cors
+openai
 pandas
+requests
 openpyxl
-gunicorn
