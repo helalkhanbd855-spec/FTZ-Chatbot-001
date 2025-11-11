@@ -5,5 +5,5 @@ Run backend:
 4) python app.py   # http://127.0.0.1:5000
 
 Point PWA to backend:
-- Open: frontend-pwa/index.html?api=http://127.0.0.1:5000
+- Open: frontend-pwa/home.html?api=http://127.0.0.1:5000
 - Or set once: localStorage.setItem('API_BASE','http://127.0.0.1:5000')
